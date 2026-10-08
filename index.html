@@ -76,7 +76,7 @@ h1 b{font-weight:700;display:block}
 .av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:700 13px Inter;background:#E9F6D3;color:var(--lime-ink)}
 .from .n{font:600 14px Inter} .from .e{font:400 13px Inter;color:rgba(15,23,42,.48)}
 .body{font:400 15px/1.7 Inter;color:#1e293b}
-.lane{border-radius:5px;padding:1px 3px;background:linear-gradient(var(--lime),var(--lime)) no-repeat left center/0% 100%;transition:background-size 560ms var(--ease-out)}
+.lane{border-radius:5px;padding:1px 3px;margin:0 -3px;background:linear-gradient(var(--lime),var(--lime)) no-repeat left center/0% 100%;transition:background-size 560ms var(--ease-out)}
 .lane.on{background-size:100% 100%}
 .scanline{position:absolute;left:0;right:0;height:140px;top:0;background:linear-gradient(180deg,rgba(154,207,71,0),rgba(154,207,71,.20) 70%,rgba(154,207,71,.42) 96%,rgba(154,207,71,0));pointer-events:none;opacity:0;transform:translateY(-150px)}
 .scanline.go{animation:scan 1150ms cubic-bezier(.65,0,.35,1) forwards}
@@ -467,7 +467,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
       <div class="scene on" data-s="0">
         <div class="s-card" style="width:76%;padding:28px 30px;position:relative">
           <div style="font:600 18px Inter;margin-bottom:14px">need rate ASAP</div>
-          <div style="font:400 15px/1.7 Inter;color:#1e293b">Need a rate for 3 × 40HC out of <span class="lane on">Port of Savannah to Macon, GA</span>, live unload, Thursday pickup.</div>
+          <div style="font:400 15px/1.7 Inter;color:#1e293b">Need a rate for 3&nbsp;×&nbsp;40HC out of the <span class="lane on">Port of Savannah to Macon, GA</span>, live unload, Thursday pickup.</div>
           <div style="display:flex;gap:10px;align-items:center;margin-top:22px;padding:12px;border-radius:12px;box-shadow:inset 0 0 0 1.5px #9ACF47,0 0 0 5px rgba(154,207,71,.18);width:max-content"><span style="width:36px;height:36px;border-radius:10px;background:rgba(124,58,237,.12);display:grid;place-items:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"><path d="M3 8V5a2 2 0 0 1 2-2h3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M21 16v3a2 2 0 0 1-2 2h-3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><rect x="8.5" y="8.5" width="7" height="7" rx="1.5" fill="#7C3AED" stroke="none"/></svg></span><span><b style="font:600 14px Inter;display:block">Scan</b><span style="font:400 12px Inter;color:rgba(15,23,42,.5)">This page</span></span></div>
           <svg class="cursor" style="left:150px;bottom:6px" viewBox="0 0 40 56"><path d="M3 2 L3 44 L13 34 L20 51 L27 48 L20 31 L35 31 Z" fill="#0B0B0C" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>
         </div>
@@ -599,9 +599,9 @@ $$('.rv').forEach(el=>io.observe(el));
 
 /* ---------- hero demo ---------- */
 const LANES=[
- {id:'sav-mcn',chip:'Savannah → Macon',lane:'Port of Savannah → Macon, GA',text:'Port of Savannah to Macon, GA',who:'Marcus Hale',ini:'MH',addr:'marcus@coastalimports.co',ask:'Need a rate for 3 × 40HC out of',tail:', live unload, Thursday pickup. Can you turn it around today?',v:941,lo:784,hi:1080,conf:'99%',meta:'Distance: 165 mi · Transit: 2 hours 26 mins'},
- {id:'la-phx',chip:'LA/LB → Phoenix',lane:'Port of LA/Long Beach → Greater Phoenix, AZ',text:'Port of LA/Long Beach to Phoenix, AZ',who:'Dana Ruiz',ini:'DR',addr:'dana@westlinehome.com',ask:'Can you price 2 × 40HC from',tail:' this week? Drop and pick.',v:1965,lo:1725,hi:2213,conf:'85%',meta:'Distance: 380 mi · Transit: 5 hours 50 mins'},
- {id:'sav-atl',chip:'Savannah → Atlanta',lane:'Port of Savannah → Atlanta, GA',text:'Port of Savannah to Atlanta, GA',who:'Priya Shah',ini:'PS',addr:'priya@peachtreesupply.co',ask:'Looking for a drayage rate,',tail:', 1 × 40HC, Monday.',v:1256,lo:1184,hi:1368,conf:null,meta:'Distance: 249 mi · Transit: 3 hours 54 mins'}];
+ {id:'sav-mcn',chip:'Savannah → Macon',lane:'Port of Savannah → Macon, GA',text:'Port of Savannah to Macon, GA',who:'Marcus Hale',ini:'MH',addr:'marcus@coastalimports.co',ask:'Need a rate for 3&nbsp;×&nbsp;40HC out of the',tail:', live unload, Thursday pickup. Can you turn it around today?',v:941,lo:784,hi:1080,conf:'99%',meta:'Distance: 165 mi · Transit: 2 hours 26 mins'},
+ {id:'la-phx',chip:'LA/LB → Phoenix',lane:'Port of LA/Long Beach → Greater Phoenix, AZ',text:'Port of LA/Long Beach to Phoenix, AZ',who:'Dana Ruiz',ini:'DR',addr:'dana@westlinehome.com',ask:'Can you price 2&nbsp;×&nbsp;40HC this week from the',tail:'? Drop and pick.',v:1965,lo:1725,hi:2213,conf:'85%',meta:'Distance: 380 mi · Transit: 5 hours 50 mins'},
+ {id:'sav-atl',chip:'Savannah → Atlanta',lane:'Port of Savannah → Atlanta, GA',text:'Port of Savannah to Atlanta, GA',who:'Priya Shah',ini:'PS',addr:'priya@peachtreesupply.co',ask:'Looking for a drayage rate from the',tail:': 1&nbsp;×&nbsp;40HC, Monday pickup.',v:1256,lo:1184,hi:1368,conf:null,meta:'Distance: 249 mi · Transit: 3 hours 54 mins'}];
 let cur=LANES[0], busy=false, consented=false, touched=false;
 const lanesEl=$('.lanes');
 LANES.forEach((l,i)=>{const b=document.createElement('button');b.textContent=l.chip;b.setAttribute('aria-pressed',i===0);b.onclick=()=>{touched=true;if(busy||cur===l)return;$$('.lanes button').forEach(x=>x.setAttribute('aria-pressed',x===b));cur=l;loadEmail();toHome();setHint("Press Scan ↓")};lanesEl.appendChild(b)});

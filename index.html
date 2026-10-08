@@ -76,11 +76,11 @@ h1 b{font-weight:700;display:block}
 .av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:700 13px Inter;background:#E9F6D3;color:var(--lime-ink)}
 .from .n{font:600 14px Inter} .from .e{font:400 13px Inter;color:rgba(15,23,42,.48)}
 .body{font:400 15px/1.7 Inter;color:#1e293b}
-.lane{border-radius:5px;padding:1px 3px;background:transparent;transition:background-color 400ms var(--ease-out)}
-.lane.on{background:var(--lime)}
-.scanline{position:absolute;left:0;right:0;height:110px;top:-120px;background:linear-gradient(180deg,rgba(154,207,71,0),rgba(154,207,71,.22),rgba(154,207,71,0));pointer-events:none;opacity:0}
-.scanline.go{animation:scan 900ms var(--ease-in-out) forwards}
-@keyframes scan{0%{top:-120px;opacity:1}100%{top:100%;opacity:1}}
+.lane{border-radius:5px;padding:1px 3px;background:linear-gradient(var(--lime),var(--lime)) no-repeat left center/0% 100%;transition:background-size 560ms var(--ease-out)}
+.lane.on{background-size:100% 100%}
+.scanline{position:absolute;left:0;right:0;height:140px;top:0;background:linear-gradient(180deg,rgba(154,207,71,0),rgba(154,207,71,.20) 70%,rgba(154,207,71,.42) 96%,rgba(154,207,71,0));pointer-events:none;opacity:0;transform:translateY(-150px)}
+.scanline.go{animation:scan 1150ms cubic-bezier(.65,0,.35,1) forwards}
+@keyframes scan{0%{transform:translateY(-150px);opacity:0}12%{opacity:1}85%{opacity:1}100%{transform:translateY(520px);opacity:0}}
 .sent{position:absolute;left:30px;right:30px;bottom:26px;border-radius:16px;background:#fff;box-shadow:var(--shadow);padding:14px 16px;display:flex;gap:12px;align-items:center;opacity:0;transform:translateY(16px);transition:opacity 300ms var(--ease-out),transform 400ms var(--ease-out)}
 .sent.show{opacity:1;transform:none}
 .sent .tick{width:34px;height:34px;border-radius:10px;background:var(--lime);display:grid;place-items:center;font-weight:700}
@@ -90,8 +90,40 @@ h1 b{font-weight:700;display:block}
 .ph{height:48px;background:#fff;border-bottom:1px solid var(--hair);display:flex;align-items:center;gap:9px;padding:0 14px;font:600 14px Inter}
 .ph .icons{margin-left:auto;display:flex;gap:10px;opacity:.45}
 .ph svg{width:15px;height:15px}
-.pbody{padding:14px;position:absolute;inset:48px 0 0 0;transition:opacity 260ms var(--ease-out),transform 360ms var(--ease-out),filter 260ms ease}
-.pbody.hide{opacity:0;transform:translateX(18px);filter:blur(4px);pointer-events:none}
+.pbody{padding:14px;position:absolute;inset:48px 0 46px 0;transition:opacity 300ms var(--ease-out),transform 420ms var(--ease-out),filter 300ms var(--ease-out)}
+.pbody.hide{opacity:0;transform:translateY(8px);filter:blur(3px);pointer-events:none;transition-duration:160ms}
+/* staggered result */
+.st{opacity:0;transform:translateY(6px);transition:opacity 360ms var(--ease-out),transform 460ms var(--ease-out);transition-delay:calc(var(--d,0)*55ms)}
+.st.in{opacity:1;transform:none}
+/* panel home (matches the real extension) */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tl{display:flex;gap:9px;align-items:center;border:0;background:#fff;border-radius:11px;padding:10px;cursor:pointer;font-family:Inter;text-align:left;box-shadow:inset 0 0 0 1px rgba(15,23,42,.08);transition:transform 160ms var(--ease-out),box-shadow 200ms ease}
+.tl:active{transform:scale(.97)}
+.tl .ic{flex:none;width:32px;height:32px;border-radius:9px;display:grid;place-items:center}
+.tl b{font:600 13px Inter;display:block}.tl span{font:400 11px Inter;color:rgba(15,23,42,.5)}
+.tl.scan{box-shadow:inset 0 0 0 1.5px var(--lime-ui)}
+.tl.scan.pulse{animation:pulse 1.8s var(--ease-out) infinite}
+@keyframes pulse{0%{box-shadow:inset 0 0 0 1.5px var(--lime-ui),0 0 0 0 rgba(154,207,71,.45)}70%{box-shadow:inset 0 0 0 1.5px var(--lime-ui),0 0 0 9px rgba(154,207,71,0)}100%{box-shadow:inset 0 0 0 1.5px var(--lime-ui),0 0 0 0 rgba(154,207,71,0)}}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(124,58,237,.25);border-top-color:#7C3AED;animation:rot 600ms linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.emptyp{margin-top:18px;border-radius:12px;border:1.5px dashed rgba(15,23,42,.1);height:150px;display:grid;place-items:center;text-align:center;font:400 11.5px/1.5 Inter;color:rgba(15,23,42,.45);padding:0 20px;transition:opacity 200ms ease}
+.pfoot{position:absolute;left:0;right:0;bottom:0;height:46px;border-top:1px solid var(--hair);background:#fff;display:flex;align-items:center;gap:9px;padding:0 14px;font:500 11.5px Inter;color:rgba(15,23,42,.6)}
+.pfoot .me{width:24px;height:24px;border-radius:50%;background:#0d9488;color:#fff;display:grid;place-items:center;font:600 11px Inter}
+.pfoot .rd{margin-left:auto;font-size:11px;color:rgba(15,23,42,.5)}
+/* consent modal (first scan only, like the real extension) */
+.consent{position:absolute;inset:48px 0 0 0;background:rgba(15,23,42,.22);display:grid;place-items:center;padding:14px;opacity:0;pointer-events:none;transition:opacity 200ms var(--ease-out);z-index:5}
+.consent.show{opacity:1;pointer-events:auto}
+.consent .dlg{background:#fff;border-radius:14px;padding:16px;box-shadow:0 20px 40px -12px rgba(15,23,42,.35);transform:scale(.96);transition:transform 260ms var(--ease-out);font-family:Inter}
+.consent.show .dlg{transform:none}
+.consent h5{font:600 14px Inter;margin-bottom:6px}.consent p{font:400 11.5px/1.55 Inter;color:rgba(15,23,42,.6)}
+.consent .row{display:flex;gap:8px;margin-top:12px}
+.consent button{flex:1;height:34px;border-radius:9px;border:0;font:600 12.5px Inter;cursor:pointer;transition:transform 160ms var(--ease-out)}
+.consent button:active{transform:scale(.97)}
+.consent .no{background:#fff;box-shadow:inset 0 0 0 1px rgba(15,23,42,.12)}.consent .yes{background:var(--lime-ui)}
+/* demo cursor (auto-play only) */
+.dcur{position:absolute;left:0;top:0;width:26px;z-index:20;pointer-events:none;opacity:0;transition:transform 760ms var(--ease-in-out),opacity 220ms ease;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
+.dcur.press svg{transform:scale(.86);transition:transform 120ms var(--ease-out)}
+.dcur svg{transition:transform 180ms var(--ease-out);transform-origin:20% 10%}
 .src{display:flex;gap:10px;align-items:center;margin-bottom:10px}
 .src .ic{width:30px;height:30px;border-radius:8px;background:#fff;box-shadow:inset 0 0 0 1px var(--hair);display:grid;place-items:center}
 .src .a{font:600 12.5px Inter}.src .b{font:400 11px Inter;color:rgba(15,23,42,.5)}
@@ -138,8 +170,8 @@ h1 b{font-weight:700;display:block}
 .hint.hide{opacity:0;transform:scale(.95)}
 
 /* ---------- section headers ---------- */
-.kick{font:600 13px "DM Sans";letter-spacing:.12em;text-transform:uppercase;color:var(--lime-ink)}
-.dark .kick{color:var(--lime)}
+.kick{font:400 22px/1.2 "DM Sans";letter-spacing:-.01em;color:var(--lime-ink)}
+.dark .kick,.index .kick,.vcard.new .kick{color:var(--lime)}
 h2{font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.04em;font-weight:400;margin:14px 0 18px}
 h2 b{font-weight:700}
 .sub{font-size:19px;line-height:1.55;color:rgba(11,11,12,.66);max-width:48ch}
@@ -151,7 +183,8 @@ h2 b{font-weight:700}
 .vs{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
 .vcard{border-radius:var(--r);padding:36px;min-height:560px;display:flex;flex-direction:column;overflow:hidden;position:relative}
 .vcard.old{background:var(--paper-2)} .vcard.new{background:var(--black);color:#fff}
-.vcard h3{font-size:34px;line-height:1.05;letter-spacing:-.03em;font-weight:700;margin:10px 0 14px}
+.vcard h3{font-size:34px;line-height:1.05;letter-spacing:-.03em;font-weight:700;margin:12px 0 14px}
+.vcard.new .kick{color:var(--lime);font-size:24px}
 .vcard p{font-size:16.5px;line-height:1.6;opacity:.7;max-width:42ch}
 .thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:auto}
 .thumb{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5}
@@ -318,7 +351,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   </div>
 
   <div class="demo rv" style="--i:2" id="demo" aria-label="Interactive demo of the Drayrates extension">
-    <div class="hint" id="hint">Try it. Pick a lane ↓</div>
+    <div class="hint" id="hint">Try it. Press Scan ↓</div>
+    <div class="dcur" id="dcur"><svg viewBox="0 0 40 56"><path d="M3 2 L3 44 L13 34 L20 51 L27 48 L20 31 L35 31 Z" fill="#0B0B0C" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg></div>
     <div class="browser">
       <div class="bar"><i></i><i></i><i></i><div class="url">mail.yourbrokerage.com / inbox</div></div>
       <div class="app">
@@ -334,14 +368,18 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
             <span class="icons"><svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2" stroke-linecap="round"><path d="M9 4h6l-1 6 3 3H7l3-3-1-6z"/><path d="M12 13v7"/><path d="M4 4l16 16"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
           <!-- scan state -->
           <div class="pbody" id="p-scan">
-            <button class="scanbtn" id="scanbtn"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"><path d="M3 8V5a2 2 0 0 1 2-2h3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M21 16v3a2 2 0 0 1-2 2h-3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><rect x="8.5" y="8.5" width="7" height="7" rx="1.5" fill="#7C3AED" stroke="none"/></svg></span><span><b>Scan</b><span>This page</span></span></button>
-            <div class="skel" id="skel" style="margin-top:14px;opacity:0"></div>
+            <div class="tiles">
+              <button class="tl" type="button" tabindex="-1" aria-disabled="true"><span class="ic" style="background:rgba(154,207,71,.16)"><svg width="17" height="17" viewBox="0 0 256 256"><path fill="#3F5D14" d="M168,112a56,56,0,1,1-56-56A56,56,0,0,1,168,112Zm61.66,117.66a8,8,0,0,1-11.32,0l-50.06-50.07a88,88,0,1,1,11.32-11.31l50.06,50.06A8,8,0,0,1,229.66,229.66ZM112,184a72,72,0,1,0-72-72A72,72,0,0,0,112,184Z"/></svg></span><span><b>Search</b><span>Enter a lane</span></span></button>
+              <button class="tl scan pulse" type="button" id="scanbtn"><span class="ic" style="background:rgba(124,58,237,.12)" id="scanic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"><path d="M3 8V5a2 2 0 0 1 2-2h3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M21 16v3a2 2 0 0 1-2 2h-3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><rect x="8.5" y="8.5" width="7" height="7" rx="1.5" fill="#7C3AED" stroke="none"/></svg></span><span><b>Scan</b><span id="scansub">This page</span></span></button>
+            </div>
+            <div class="emptyp" id="emptyp">Open an email and press Scan.<br>The lane comes out of the email for you.</div>
+            <div class="skel" id="skel" style="margin-top:14px;display:none"></div>
           </div>
           <!-- result state -->
           <div class="pbody hide" id="p-rate">
-            <div class="src"><div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6l8.5 7 8.5-7"/></svg></div><div><div class="a" id="r-who">Marcus Hale</div><div class="b">need rate ASAP</div></div></div>
-            <div class="status"><span class="pill">● UNQUOTED</span><span style="font-weight:500">just now</span></div>
-            <div class="card">
+            <div class="src st" style="--d:0"><div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6l8.5 7 8.5-7"/></svg></div><div><div class="a" id="r-who">Marcus Hale</div><div class="b">need rate ASAP</div></div></div>
+            <div class="status st" style="--d:1"><span class="pill">● UNQUOTED</span><span style="font-weight:500">just now</span></div>
+            <div class="card st" style="--d:2">
               <div class="lt" id="r-lane">Port of Savannah → Macon, GA</div>
               <div class="mk">
                 <div class="row"><span class="lbl">Market</span><span class="conf" id="r-conf">99%</span></div>
@@ -351,8 +389,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
               </div>
               <div class="meta" id="r-meta">Distance: 165 mi · Transit: 2 hours 26 mins</div>
             </div>
-            <button class="gq" id="gq">Generate Quote <span class="n">1</span></button>
+            <button class="gq st" style="--d:4" id="gq">Generate Quote <span class="n">1</span></button>
           </div>
+          <div class="consent" id="consent" role="dialog" aria-label="Scan this page?"><div class="dlg">
+            <h5>Scan this page?</h5>
+            <p>Drayrates reads the visible text on this page to find freight lanes. On Gmail, the email’s sender and subject are also read so you can reply with a quote. We use this text only to detect lanes for you.</p>
+            <div class="row"><button class="no" id="c-no">Cancel</button><button class="yes" id="c-yes">Scan page</button></div>
+          </div></div>
+          <div class="pfoot"><span class="me">Y</span><span>You · yourbrokerage.com</span><span class="rd">((·)) Ready</span></div>
           <!-- quote state -->
           <div class="pbody hide qb" id="p-quote">
             <button class="back" id="back">← Back to rate</button>
@@ -381,10 +425,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   <p class="sub rv" style="--i:2">Drayage still runs on forwarded emails and waiting. Truckload has had real market data for fifteen years. Drayage hasn’t, until now.</p>
   <div class="vs">
     <div class="vcard old rv" id="oldcard">
-      <div class="kick" style="color:rgba(11,11,12,.5)">The traditional way</div>
+      <div class="kick" style="color:rgba(11,11,12,.55)">The traditional way</div>
       <h3>Hand the deal to someone else, and wait.</h3>
       <p>A request lands. You email four to six truckers, or forward the shipper’s email straight to a carrier, and wait. Thirty minutes to over a day. By then the load is gone.</p>
-      <div class="clockline"><span class="big" id="oldclock">9:04</span><span class="cap">waiting on a number</span></div>
+      <div class="clockline"><span class="big" id="oldclock">9:04</span></div>
       <div class="thumbs">
         <div class="thumb"><img src="assets/img/dispatch.jpg" alt="Dispatcher at a desk" loading="lazy"><div class="typing"><i></i><i></i><i></i></div></div>
         <div class="thumb"><img src="assets/img/yard.jpg" alt="Driver walking a chassis row" loading="lazy"><div class="typing"><i></i><i></i><i></i></div></div>
@@ -407,7 +451,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 <!-- ============ FLIP ============ -->
 <section class="flip dark" id="flip"><div class="stick"><div class="wrap" style="width:100%">
   <div class="row"><span>right</span><span class="stack" id="stack"><span class="p">rate</span><span class="p">away</span><span class="p">inside your inbox</span></span></div>
-</div><div class="cap">Keep scrolling</div></div></section>
+</div></div></section>
 
 <!-- ============ HOW IT WORKS ============ -->
 <section class="how" id="how"><div class="wrap">
@@ -514,13 +558,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
       <a class="btn" href="https://chromewebstore.google.com/detail/drayrates/fabiekljkggckhidjijihbihboadeidb" target="_blank" rel="noopener">Start with 20 free <span class="arr">→</span></a>
     </div>
   </div>
-  <div class="teams rv"><div><b>Running a drayage desk?</b><div class="fine" style="margin-top:4px">Small Teams puts up to 7 reps on the same rates, the same carriers, the same history.</div></div><a class="btn ghost" href="https://drayrates.ai/pricing">Talk to Tyler</a></div>
+  <div class="teams rv"><div><b>Running a drayage desk?</b><div class="fine" style="margin-top:4px">The team plan puts up to 7 reps on the same rates, the same carriers, the same history.</div></div><a class="btn ghost" href="https://drayrates.ai/pricing">Talk to Tyler</a></div>
   <p class="fine" style="margin-top:16px">Your first 20 rates are free, one time. They don’t reset. A rate is one market rate returned, however you asked for it.</p>
 </div></section>
 
 <!-- ============ FAQ ============ -->
 <section class="faq" id="faq"><div class="wrap">
-  <div class="kick rv" style="text-align:center">Questions</div>
+  <div class="kick rv" style="text-align:center">FAQ</div>
   <h2 class="rv" style="--i:1;text-align:center">Fair questions. <b>Straight answers.</b></h2>
   <div class="qa" id="qa">
     <div class="item"><button aria-expanded="false">Is this AI, or real rates?<span class="pm">+</span></button><div class="ans"><div><p>Real rates, from real market data. The extension reads the lane from the page and returns the market rate built on transactional data: invoices and TMS integrations. It does not make up rates outside of market context.</p></div></div></div>
@@ -538,7 +582,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   <p class="sub rv" style="--i:2;margin:0 auto">In at 9:04. Quoted at 9:05. Your first 20 rates are free.</p>
   <div class="ctas rv" style="--i:3"><a class="btn lime" href="https://chromewebstore.google.com/detail/drayrates/fabiekljkggckhidjijihbihboadeidb" target="_blank" rel="noopener">Get the extension <span class="arr">→</span></a></div>
 </div></section>
-<footer><div class="wrap"><span>© 2026 Drayrates · Drayage pricing where you work.</span><span>Prototype · CDM for Drayrates · Lanes and rates shown pending verification</span></div></footer>
+<footer><div class="wrap"><span>© 2026 Drayrates</span><span>Prototype · Lanes and rates shown pending verification</span></div></footer>
 
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -558,41 +602,62 @@ const LANES=[
  {id:'sav-mcn',chip:'Savannah → Macon',lane:'Port of Savannah → Macon, GA',text:'Port of Savannah to Macon, GA',who:'Marcus Hale',ini:'MH',addr:'marcus@coastalimports.co',ask:'Need a rate for 3 × 40HC out of',tail:', live unload, Thursday pickup. Can you turn it around today?',v:941,lo:784,hi:1080,conf:'99%',meta:'Distance: 165 mi · Transit: 2 hours 26 mins'},
  {id:'la-phx',chip:'LA/LB → Phoenix',lane:'Port of LA/Long Beach → Greater Phoenix, AZ',text:'Port of LA/Long Beach to Phoenix, AZ',who:'Dana Ruiz',ini:'DR',addr:'dana@westlinehome.com',ask:'Can you price 2 × 40HC from',tail:' this week? Drop and pick.',v:1965,lo:1725,hi:2213,conf:'85%',meta:'Distance: 380 mi · Transit: 5 hours 50 mins'},
  {id:'sav-atl',chip:'Savannah → Atlanta',lane:'Port of Savannah → Atlanta, GA',text:'Port of Savannah to Atlanta, GA',who:'Priya Shah',ini:'PS',addr:'priya@peachtreesupply.co',ask:'Looking for a drayage rate,',tail:', 1 × 40HC, Monday.',v:1256,lo:1184,hi:1368,conf:null,meta:'Distance: 249 mi · Transit: 3 hours 54 mins'}];
-let cur=LANES[0], busy=false;
+let cur=LANES[0], busy=false, consented=false, touched=false;
 const lanesEl=$('.lanes');
-LANES.forEach((l,i)=>{const b=document.createElement('button');b.textContent=l.chip;b.setAttribute('aria-pressed',i===0);b.onclick=()=>{if(busy||cur===l)return;$$('.lanes button').forEach(x=>x.setAttribute('aria-pressed',x===b));cur=l;hideHint();loadEmail();show('p-scan');setTimeout(runScan,350)};lanesEl.appendChild(b)});
+LANES.forEach((l,i)=>{const b=document.createElement('button');b.textContent=l.chip;b.setAttribute('aria-pressed',i===0);b.onclick=()=>{touched=true;if(busy||cur===l)return;$$('.lanes button').forEach(x=>x.setAttribute('aria-pressed',x===b));cur=l;loadEmail();toHome();setHint("Press Scan ↓")};lanesEl.appendChild(b)});
+function setHint(t){const h=$('#hint');h.textContent=t;h.classList.remove('hide')}
 function hideHint(){$('#hint').classList.add('hide')}
 function loadEmail(){
  const l=cur;$('#av').textContent=l.ini;$('#who').innerHTML=`${l.who} <span class="e">&lt;${l.addr}&gt;</span>`;
  $('#body').innerHTML=`Morning,<br>${l.ask} <span class="lane" id="lanehl">${l.text}</span>${l.tail}<br><br>Thanks,<br>${l.who.split(' ')[0]}`;
- $('#sent').classList.remove('show');$('#skel').style.opacity=0;
+ $('#sent').classList.remove('show');
 }
-function show(id){['p-scan','p-rate','p-quote'].forEach(p=>$('#'+p).classList.toggle('hide',p!==id))}
-function runScan(){
- if(busy)return;busy=true;
+function show(id){['p-scan','p-rate','p-quote'].forEach(p=>$('#'+p).classList.toggle('hide',p!==id));
+ if(id==='p-rate'){$$('#p-rate .st').forEach(e=>e.classList.remove('in'));requestAnimationFrame(()=>requestAnimationFrame(()=>$$('#p-rate .st').forEach(e=>e.classList.add('in'))))}}
+function toHome(){show('p-scan');$('#skel').style.display='none';$('#emptyp').style.display='grid';$('#scansub').textContent='This page';$('#scanbtn').classList.add('pulse');
+ $('#scanic').innerHTML=SCAN_ICON}
+const SCAN_ICON=$('#scanic').innerHTML;
+function pressScan(){touched=true;if(busy)return;hideHint();$('#scanbtn').classList.remove('pulse');if(!consented){$('#consent').classList.add('show');return}doScan()}
+function doScan(){
+ busy=true;$('#scanic').innerHTML='<span class="spin"></span>';$('#scansub').textContent='Reading this page…';
+ $('#emptyp').style.display='none';$('#skel').style.display='block';
  const sl=$('#scanline');sl.classList.remove('go');void sl.offsetWidth;sl.classList.add('go');
- $('#skel').style.opacity=1;
- setTimeout(()=>$('#lanehl').classList.add('on'),RM?0:520);
- setTimeout(()=>{fillRate();show('p-rate');busy=false},RM?100:1000);
+ setTimeout(()=>$('#lanehl').classList.add('on'),RM?0:600);
+ setTimeout(()=>{fillRate();show('p-rate');busy=false},RM?100:1250);
 }
 function fillRate(){
  const l=cur;$('#r-who').textContent=l.who;$('#r-lane').textContent=l.lane;$('#r-meta').textContent=l.meta;
  $('#r-range').textContent=`${fmt(l.lo)}–${fmt(l.hi)}`;const c=$('#r-conf');c.textContent=l.conf||'';c.style.opacity=l.conf?1:0;
  const fill=$('#r-fill'),dot=$('#r-dot');fill.style.transform='scaleX(0)';dot.style.opacity=0;dot.style.left='0%';
- // number scramble through its own range, then lock
- const el=$('#r-val');const t0=performance.now(),D=RM?0:700;
- (function tick(t){const p=Math.min(1,(t-t0)/Math.max(D,1));if(p<1){el.textContent=fmt(l.lo+Math.random()*(l.hi-l.lo));requestAnimationFrame(tick)}else{el.textContent=fmt(l.v);fill.style.transform='scaleX(1)';dot.style.opacity=1;dot.style.left=((l.v-l.lo)/(l.hi-l.lo)*100)+'%'}})(t0);
- $('#q-lane').textContent=l.lane;updQuote();
+ // scramble that slows down and closes in on the market rate, then locks
+ const el=$('#r-val');const D=RM?0:900;let last=0;const t0=performance.now();
+ (function tick(t){const p=Math.min(1,(t-t0)/Math.max(D,1));const gap=40+260*p*p;
+  if(p<1){if(t-last>gap*0.35){last=t;const spread=(l.hi-l.lo)*Math.pow(1-p,2);el.textContent=fmt(l.v+(Math.random()-.5)*spread*1.6)}requestAnimationFrame(tick)}
+  else{el.textContent=fmt(l.v);fill.style.transform='scaleX(1)';setTimeout(()=>{dot.style.opacity=1;dot.style.left=((l.v-l.lo)/(l.hi-l.lo)*100)+'%'},120)}})(t0+260);
+ $('#q-lane').textContent=l.lane;$('#margin').value=8;updQuote();
 }
 function updQuote(){const m=+$('#margin').value,b=cur.v,s=b*(1+m/100);$('#q-buy').textContent=fmt2(b);$('#q-m').textContent=m+' %';$('#q-sub').textContent=`Buy ${fmt2(b)} + ${m}% margin`;$('#q-sell').textContent=fmt2(s);$('#replyt').textContent='Reply';$('#reply').classList.remove('done')}
-$('#margin').addEventListener('input',updQuote);
-$('#scanbtn').onclick=()=>{hideHint();runScan()};
-$('#gq').onclick=()=>{hideHint();show('p-quote')};
+$('#margin').addEventListener('input',()=>{touched=true;updQuote()});
+$('#scanbtn').onclick=pressScan;
+$('#c-no').onclick=()=>{$('#consent').classList.remove('show');$('#scanbtn').classList.add('pulse')};
+$('#c-yes').onclick=()=>{consented=true;$('#consent').classList.remove('show');setTimeout(doScan,140)};
+$('#gq').onclick=()=>{touched=true;show('p-quote')};
 $('#back').onclick=()=>show('p-rate');
-$('#reply').onclick=()=>{const r=$('#reply');if(r.classList.contains('done'))return;$('#replyt').textContent='Replying…';setTimeout(()=>{r.classList.add('done');$('#replyt').textContent='Sent';$('#sentsub').textContent=`${cur.lane} · ${$('#q-sell').textContent}`;$('#sent').classList.add('show')},RM?0:450)};
+$('#reply').onclick=()=>{touched=true;const r=$('#reply');if(r.classList.contains('done'))return;$('#replyt').textContent='Replying…';setTimeout(()=>{r.classList.add('done');$('#replyt').textContent='Sent';$('#sentsub').textContent=`${cur.lane} · ${$('#q-sell').textContent}`;$('#sent').classList.add('show')},RM?0:450)};
+$('#demo').addEventListener('pointerdown',()=>{touched=true},{capture:true});
 loadEmail();
-// auto-run once when the demo first comes into view
-new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();setTimeout(runScan,900)}},{threshold:.5}).observe($('#demo'));
+// auto-demo: if nobody touches it, a cursor shows the real flow once (Scan → Scan page)
+const cursor=$('#dcur');
+function moveTo(el,dx=.55,dy=.6){const d=$('#demo').getBoundingClientRect(),r=el.getBoundingClientRect();cursor.style.transform=`translate(${r.left-d.left+r.width*dx}px,${r.top-d.top+r.height*dy}px)`}
+function click(){cursor.classList.add('press');setTimeout(()=>cursor.classList.remove('press'),140)}
+function autoDemo(){if(touched||RM)return;const d=$('#demo').getBoundingClientRect();cursor.style.transition='none';cursor.style.transform=`translate(${d.width*.45}px,${d.height*.55}px)`;void cursor.offsetWidth;cursor.style.transition='';cursor.style.opacity=1;
+ setTimeout(()=>{if(touched)return hideCur();moveTo($('#scanbtn'))},120);
+ setTimeout(()=>{if(touched)return hideCur();click();hideHint();$('#scanbtn').classList.remove('pulse');$('#consent').classList.add('show')},1000);
+ setTimeout(()=>{if(touched)return hideCur();moveTo($('#c-yes'),.5,.55)},1700);
+ setTimeout(()=>{if(touched)return hideCur();click();consented=true;$('#consent').classList.remove('show');setTimeout(doScan,140)},2600);
+ setTimeout(hideCur,3100)}
+function hideCur(){cursor.style.opacity=0}
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();setTimeout(autoDemo,3500)}},{threshold:.5}).observe($('#demo'));
 
 /* ---------- old way clock + new way odometer ---------- */
 new IntersectionObserver((es,o)=>{if(!es[0].isIntersecting)return;o.disconnect();let m=4;const el=$('#oldclock');const id=setInterval(()=>{m+=3;el.textContent='9:'+String(m).padStart(2,'0');if(m>=47)clearInterval(id)},RM?1:110)},{threshold:.5}).observe($('#oldcard'));

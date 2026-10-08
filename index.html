@@ -90,7 +90,7 @@ h1 b{font-weight:700;display:block}
 .ph{height:48px;background:#fff;border-bottom:1px solid var(--hair);display:flex;align-items:center;gap:9px;padding:0 14px;font:600 14px Inter}
 .ph .icons{margin-left:auto;display:flex;gap:10px;opacity:.45}
 .ph svg{width:15px;height:15px}
-.pbody{padding:14px;position:absolute;inset:48px 0 46px 0;transition:opacity 300ms var(--ease-out),transform 420ms var(--ease-out),filter 300ms var(--ease-out)}
+.pbody{padding:14px;position:absolute;inset:48px 0 0 0;transition:opacity 300ms var(--ease-out),transform 420ms var(--ease-out),filter 300ms var(--ease-out)}
 .pbody.hide{opacity:0;transform:translateY(8px);filter:blur(3px);pointer-events:none;transition-duration:160ms}
 /* staggered result */
 .st{opacity:0;transform:translateY(6px);transition:opacity 360ms var(--ease-out),transform 460ms var(--ease-out);transition-delay:calc(var(--d,0)*55ms)}
@@ -351,8 +351,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   </div>
 
   <div class="demo rv" style="--i:2" id="demo" aria-label="Interactive demo of the Drayrates extension">
-    <div class="hint" id="hint">Try it. Press Scan ↓</div>
-    <div class="dcur" id="dcur"><svg viewBox="0 0 40 56"><path d="M3 2 L3 44 L13 34 L20 51 L27 48 L20 31 L35 31 Z" fill="#0B0B0C" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg></div>
+    <div class="hint" id="hint">Try it. Pick a lane ↓</div>
     <div class="browser">
       <div class="bar"><i></i><i></i><i></i><div class="url">mail.yourbrokerage.com / inbox</div></div>
       <div class="app">
@@ -391,12 +390,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
             </div>
             <button class="gq st" style="--d:4" id="gq">Generate Quote <span class="n">1</span></button>
           </div>
-          <div class="consent" id="consent" role="dialog" aria-label="Scan this page?"><div class="dlg">
-            <h5>Scan this page?</h5>
-            <p>Drayrates reads the visible text on this page to find freight lanes. On Gmail, the email’s sender and subject are also read so you can reply with a quote. We use this text only to detect lanes for you.</p>
-            <div class="row"><button class="no" id="c-no">Cancel</button><button class="yes" id="c-yes">Scan page</button></div>
-          </div></div>
-          <div class="pfoot"><span class="me">Y</span><span>You · yourbrokerage.com</span><span class="rd">((·)) Ready</span></div>
           <!-- quote state -->
           <div class="pbody hide qb" id="p-quote">
             <button class="back" id="back">← Back to rate</button>
@@ -602,9 +595,9 @@ const LANES=[
  {id:'sav-mcn',chip:'Savannah → Macon',lane:'Port of Savannah → Macon, GA',text:'Port of Savannah to Macon, GA',who:'Marcus Hale',ini:'MH',addr:'marcus@coastalimports.co',ask:'Need a rate for 3&nbsp;×&nbsp;40HC out of the',tail:', live unload, Thursday pickup. Can you turn it around today?',v:941,lo:784,hi:1080,conf:'99%',meta:'Distance: 165 mi · Transit: 2 hours 26 mins'},
  {id:'la-phx',chip:'LA/LB → Phoenix',lane:'Port of LA/Long Beach → Greater Phoenix, AZ',text:'Port of LA/Long Beach to Phoenix, AZ',who:'Dana Ruiz',ini:'DR',addr:'dana@westlinehome.com',ask:'Can you price 2&nbsp;×&nbsp;40HC this week from the',tail:'? Drop and pick.',v:1965,lo:1725,hi:2213,conf:'85%',meta:'Distance: 380 mi · Transit: 5 hours 50 mins'},
  {id:'sav-atl',chip:'Savannah → Atlanta',lane:'Port of Savannah → Atlanta, GA',text:'Port of Savannah to Atlanta, GA',who:'Priya Shah',ini:'PS',addr:'priya@peachtreesupply.co',ask:'Looking for a drayage rate from the',tail:': 1&nbsp;×&nbsp;40HC, Monday pickup.',v:1256,lo:1184,hi:1368,conf:null,meta:'Distance: 249 mi · Transit: 3 hours 54 mins'}];
-let cur=LANES[0], busy=false, consented=false, touched=false;
+let cur=LANES[0], busy=false;
 const lanesEl=$('.lanes');
-LANES.forEach((l,i)=>{const b=document.createElement('button');b.textContent=l.chip;b.setAttribute('aria-pressed',i===0);b.onclick=()=>{touched=true;if(busy||cur===l)return;$$('.lanes button').forEach(x=>x.setAttribute('aria-pressed',x===b));cur=l;loadEmail();toHome();setHint("Press Scan ↓")};lanesEl.appendChild(b)});
+LANES.forEach((l,i)=>{const b=document.createElement('button');b.textContent=l.chip;b.setAttribute('aria-pressed',i===0);b.onclick=()=>{if(busy||cur===l)return;$$('.lanes button').forEach(x=>x.setAttribute('aria-pressed',x===b));cur=l;hideHint();loadEmail();toHome();setTimeout(doScan,RM?0:420)};lanesEl.appendChild(b)});
 function setHint(t){const h=$('#hint');h.textContent=t;h.classList.remove('hide')}
 function hideHint(){$('#hint').classList.add('hide')}
 function loadEmail(){
@@ -617,9 +610,9 @@ function show(id){['p-scan','p-rate','p-quote'].forEach(p=>$('#'+p).classList.to
 function toHome(){show('p-scan');$('#skel').style.display='none';$('#emptyp').style.display='grid';$('#scansub').textContent='This page';$('#scanbtn').classList.add('pulse');
  $('#scanic').innerHTML=SCAN_ICON}
 const SCAN_ICON=$('#scanic').innerHTML;
-function pressScan(){touched=true;if(busy)return;hideHint();$('#scanbtn').classList.remove('pulse');if(!consented){$('#consent').classList.add('show');return}doScan()}
+function pressScan(){if(busy)return;hideHint();doScan()}
 function doScan(){
- busy=true;$('#scanic').innerHTML='<span class="spin"></span>';$('#scansub').textContent='Reading this page…';
+ busy=true;$('#scanbtn').classList.remove('pulse');$('#scanic').innerHTML='<span class="spin"></span>';$('#scansub').textContent='Reading this page…';
  $('#emptyp').style.display='none';$('#skel').style.display='block';
  const sl=$('#scanline');sl.classList.remove('go');void sl.offsetWidth;sl.classList.add('go');
  setTimeout(()=>$('#lanehl').classList.add('on'),RM?0:600);
@@ -637,27 +630,14 @@ function fillRate(){
  $('#q-lane').textContent=l.lane;$('#margin').value=8;updQuote();
 }
 function updQuote(){const m=+$('#margin').value,b=cur.v,s=b*(1+m/100);$('#q-buy').textContent=fmt2(b);$('#q-m').textContent=m+' %';$('#q-sub').textContent=`Buy ${fmt2(b)} + ${m}% margin`;$('#q-sell').textContent=fmt2(s);$('#replyt').textContent='Reply';$('#reply').classList.remove('done')}
-$('#margin').addEventListener('input',()=>{touched=true;updQuote()});
+$('#margin').addEventListener('input',updQuote);
 $('#scanbtn').onclick=pressScan;
-$('#c-no').onclick=()=>{$('#consent').classList.remove('show');$('#scanbtn').classList.add('pulse')};
-$('#c-yes').onclick=()=>{consented=true;$('#consent').classList.remove('show');setTimeout(doScan,140)};
-$('#gq').onclick=()=>{touched=true;show('p-quote')};
+$('#gq').onclick=()=>{hideHint();show('p-quote')};
 $('#back').onclick=()=>show('p-rate');
-$('#reply').onclick=()=>{touched=true;const r=$('#reply');if(r.classList.contains('done'))return;$('#replyt').textContent='Replying…';setTimeout(()=>{r.classList.add('done');$('#replyt').textContent='Sent';$('#sentsub').textContent=`${cur.lane} · ${$('#q-sell').textContent}`;$('#sent').classList.add('show')},RM?0:450)};
-$('#demo').addEventListener('pointerdown',()=>{touched=true},{capture:true});
+$('#reply').onclick=()=>{const r=$('#reply');if(r.classList.contains('done'))return;$('#replyt').textContent='Replying…';setTimeout(()=>{r.classList.add('done');$('#replyt').textContent='Sent';$('#sentsub').textContent=`${cur.lane} · ${$('#q-sell').textContent}`;$('#sent').classList.add('show')},RM?0:450)};
 loadEmail();
-// auto-demo: if nobody touches it, a cursor shows the real flow once (Scan → Scan page)
-const cursor=$('#dcur');
-function moveTo(el,dx=.55,dy=.6){const d=$('#demo').getBoundingClientRect(),r=el.getBoundingClientRect();cursor.style.transform=`translate(${r.left-d.left+r.width*dx}px,${r.top-d.top+r.height*dy}px)`}
-function click(){cursor.classList.add('press');setTimeout(()=>cursor.classList.remove('press'),140)}
-function autoDemo(){if(touched||RM)return;const d=$('#demo').getBoundingClientRect();cursor.style.transition='none';cursor.style.transform=`translate(${d.width*.45}px,${d.height*.55}px)`;void cursor.offsetWidth;cursor.style.transition='';cursor.style.opacity=1;
- setTimeout(()=>{if(touched)return hideCur();moveTo($('#scanbtn'))},120);
- setTimeout(()=>{if(touched)return hideCur();click();hideHint();$('#scanbtn').classList.remove('pulse');$('#consent').classList.add('show')},1000);
- setTimeout(()=>{if(touched)return hideCur();moveTo($('#c-yes'),.5,.55)},1700);
- setTimeout(()=>{if(touched)return hideCur();click();consented=true;$('#consent').classList.remove('show');setTimeout(doScan,140)},2600);
- setTimeout(hideCur,3100)}
-function hideCur(){cursor.style.opacity=0}
-new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();setTimeout(autoDemo,3500)}},{threshold:.5}).observe($('#demo'));
+// scan automatically when the demo first comes into view
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();setTimeout(doScan,RM?0:900)}},{threshold:.5}).observe($('#demo'));
 
 /* ---------- old way clock + new way odometer ---------- */
 new IntersectionObserver((es,o)=>{if(!es[0].isIntersecting)return;o.disconnect();let m=4;const el=$('#oldclock');const id=setInterval(()=>{m+=3;el.textContent='9:'+String(m).padStart(2,'0');if(m>=47)clearInterval(id)},RM?1:110)},{threshold:.5}).observe($('#oldcard'));

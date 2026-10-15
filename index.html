@@ -141,7 +141,7 @@ h1 b{font-weight:700;display:block}
 .range{font:500 11px Inter;color:rgba(15,23,42,.48)}
 .rbar{position:relative;height:6px;border-radius:3px;background:rgba(15,23,42,.07);margin:10px 0 4px}
 .rbar .fill{position:absolute;inset:0;border-radius:3px;background:rgba(154,207,71,.55);transform-origin:left;transform:scaleX(0);transition:transform 700ms var(--ease-out)}
-.rbar .dot{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--slate);box-shadow:0 0 0 3px #fff;left:0;opacity:0;transition:left 700ms var(--ease-out),opacity 200ms ease}
+.rbar .dot{position:absolute;top:50%;width:2px;height:14px;margin:-7px 0 0 -1px;border-radius:1px;background:var(--slate);pointer-events:none;left:0;opacity:0;transition:left 700ms var(--ease-out),opacity 200ms ease}
 .meta{font:400 10.5px Inter;color:rgba(15,23,42,.48);margin-top:10px}
 .gq{margin-top:12px;width:100%;height:40px;border:0;border-radius:9px;background:var(--lime-ui);font:600 13.5px Inter;color:var(--slate);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform 160ms var(--ease-out),filter 200ms ease}
 .gq:active{transform:scale(.97)} .gq .n{width:17px;height:17px;border-radius:50%;background:var(--slate);color:#fff;font-size:10px;display:grid;place-items:center}
@@ -486,7 +486,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
           <div class="lbl" style="font-size:12px">Market rate</div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><div style="font:600 19px Inter">Port of Savannah → Macon, GA</div><span class="conf" style="font-size:12px;padding:4px 9px">99% confidence</span></div>
           <div style="font:700 112px/1.05 Inter;letter-spacing:-.04em;margin-top:10px" class="tnum">$941</div>
-          <div class="rbar" style="height:8px;margin-top:18px"><div class="fill" style="transform:none"></div><div class="dot" style="left:53%;opacity:1;width:20px;height:20px;margin:-10px 0 0 -10px"></div></div>
+          <div class="rbar" style="height:8px;margin-top:18px"><div class="fill" style="transform:none"></div><div class="dot" style="left:53%;opacity:1;height:18px;margin-top:-9px"></div></div>
           <div style="display:flex;justify-content:space-between" class="range"><span>$784</span><span>$1,080</span></div>
         </div>
       </div>

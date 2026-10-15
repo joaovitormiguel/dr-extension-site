@@ -83,9 +83,10 @@ h1 b{font-weight:700;display:block}
 .scanline{position:absolute;left:0;right:0;height:140px;top:0;background:linear-gradient(180deg,rgba(154,207,71,0),rgba(154,207,71,.20) 70%,rgba(154,207,71,.42) 96%,rgba(154,207,71,0));pointer-events:none;opacity:0;transform:translateY(-150px)}
 .scanline.go{animation:scan 1150ms cubic-bezier(.65,0,.35,1) forwards}
 @keyframes scan{0%{transform:translateY(-150px);opacity:0}12%{opacity:1}85%{opacity:1}100%{transform:translateY(520px);opacity:0}}
-.sent{position:absolute;left:30px;right:30px;bottom:26px;border-radius:16px;background:#fff;box-shadow:var(--shadow);padding:14px 16px;display:flex;gap:12px;align-items:center;opacity:0;transform:translateY(16px);transition:opacity 300ms var(--ease-out),transform 400ms var(--ease-out)}
+.sent{position:absolute;left:30px;right:30px;bottom:14px;border-radius:16px;background:#fff;box-shadow:var(--shadow);padding:14px 16px;display:flex;gap:12px;align-items:center;opacity:0;transform:translateY(16px);transition:opacity 300ms var(--ease-out),transform 400ms var(--ease-out)}
 .sent.show{opacity:1;transform:none}
-.sent .tick{width:34px;height:34px;border-radius:10px;background:var(--lime);display:grid;place-items:center;font-weight:700}
+.sent .tick{flex:none;width:34px;height:34px;border-radius:10px;background:var(--lime);color:var(--lime-ink);display:grid;place-items:center}
+.sent > div:last-child{min-width:0}.sent .t2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sent .t1{font:600 14px Inter}.sent .t2{font:400 12.5px Inter;color:rgba(15,23,42,.5)}
 
 .panel{background:#F5F5F6;border-left:1px solid var(--hair);font-family:Inter;color:var(--slate);position:relative;overflow:hidden}
@@ -384,7 +385,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
           <h3 id="subj">need rate ASAP</h3>
           <div class="from"><div class="av" id="av">MH</div><div><div class="n" id="who">Marcus Hale <span class="e" id="addr">&lt;marcus@coastalimports.co&gt;</span></div><div class="e">9:04 AM</div></div></div>
           <div class="body" id="body"></div>
-          <div class="sent" id="sent"><div class="tick">✓</div><div><div class="t1">Quote sent · 9:05 AM</div><div class="t2" id="sentsub">In at 9:04. Quoted at 9:05.</div></div></div>
+          <div class="sent" id="sent"><div class="tick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div><div class="t1">Quote sent · 9:05 AM</div><div class="t2" id="sentsub">In at 9:04. Quoted at 9:05.</div></div></div>
         </div>
         <div class="panel">
           <div class="ph"><img src="assets/img/favicon-light.svg" width="20" height="20" alt="">Drayrates
@@ -658,7 +659,7 @@ $('#margin').addEventListener('input',updQuote);
 $('#scanbtn').onclick=pressScan;
 $('#gq').onclick=()=>{hideHint();$('#gq').classList.remove('nudge');show('p-quote')};
 $('#back').onclick=()=>show('p-rate');
-$('#reply').onclick=()=>{const r=$('#reply');if(r.classList.contains('done'))return;$('#replyt').textContent='Replying…';setTimeout(()=>{r.classList.add('done');r.setAttribute('aria-disabled','true');$('#replyt').textContent='Sent';$('#sentsub').textContent=`${cur.lane} · ${$('#q-sell').textContent}`;$('#sent').classList.add('show')},RM?0:450)};
+$('#reply').onclick=()=>{const r=$('#reply');if(r.classList.contains('done'))return;$('#replyt').textContent='Replying…';setTimeout(()=>{r.classList.add('done');r.setAttribute('aria-disabled','true');$('#replyt').textContent='Sent';$('#sentsub').textContent=`${$('#q-sell').textContent} to ${cur.who.split(' ')[0]}`;$('#sent').classList.add('show')},RM?0:450)};
 loadEmail();
 // scan automatically when the demo first comes into view
 new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();setTimeout(doScan,RM?0:900)}},{threshold:.5}).observe($('#demo'));

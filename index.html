@@ -166,7 +166,8 @@ h1 b{font-weight:700;display:block}
 .sell{margin-top:12px;background:var(--lime-soft);border-radius:10px;padding:11px;display:flex;justify-content:space-between;align-items:center}
 .sell .e{font:600 10px Inter;letter-spacing:.08em;color:var(--lime-ink)}.sell .s{font:500 11px Inter;color:rgba(15,23,42,.55);margin-top:2px}
 .sell .v{font:700 22px Inter;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.reply.done{background:var(--lime)}
+.reply .ic-done{display:none}.reply.done .ic-reply{display:none}.reply.done .ic-done{display:block}
+.reply.done,.reply.done:active{background:var(--lime-soft);color:var(--lime-ink);box-shadow:none;cursor:default;transform:none}
 .back{font:500 11.5px Inter;color:rgba(15,23,42,.55);cursor:pointer;background:none;border:0;margin-bottom:10px}
 /* lane switcher */
 .lanes{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;align-items:center}
@@ -425,7 +426,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
               <div class="slider"><input type="range" min="0" max="30" value="8" id="margin" aria-label="Margin percent"></div>
               <div class="sell"><div><div class="e">SELL RATE</div><div class="s tnum" id="q-sub">Buy $941.00 + 8% margin</div></div><div class="v" id="q-sell">$1,016.28</div></div>
             </div>
-            <button class="reply" id="reply"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v4"/></svg><span id="replyt">Reply</span></button>
+            <button class="reply" id="reply"><svg class="ic-done" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><svg class="ic-reply" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B0B0C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v4"/></svg><span id="replyt">Reply</span></button>
           </div>
         </div>
       </div>
@@ -652,12 +653,12 @@ function fillRate(){
   else{el.textContent=fmt(l.v);fill.style.transform='scaleX(1)';setTimeout(()=>{dot.style.opacity=1;dot.style.left=((l.v-l.lo)/(l.hi-l.lo)*100)+'%'},120);setTimeout(()=>$('#gq').classList.add('nudge'),RM?0:900)}})(t0+260);
  $('#q-lane').textContent=l.lane;$('#margin').value=8;updQuote();
 }
-function updQuote(){const m=+$('#margin').value,b=cur.v,s=b*(1+m/100);$('#q-buy').textContent=fmt2(b);$('#q-m').textContent=m+' %';$('#q-sub').textContent=`Buy ${fmt2(b)} + ${m}% margin`;$('#q-sell').textContent=fmt2(s);$('#replyt').textContent='Reply';$('#reply').classList.remove('done')}
+function updQuote(){const m=+$('#margin').value,b=cur.v,s=b*(1+m/100);$('#q-buy').textContent=fmt2(b);$('#q-m').textContent=m+' %';$('#q-sub').textContent=`Buy ${fmt2(b)} + ${m}% margin`;$('#q-sell').textContent=fmt2(s);$('#replyt').textContent='Reply';$('#reply').classList.remove('done');$('#reply').removeAttribute('aria-disabled')}
 $('#margin').addEventListener('input',updQuote);
 $('#scanbtn').onclick=pressScan;
 $('#gq').onclick=()=>{hideHint();$('#gq').classList.remove('nudge');show('p-quote')};
 $('#back').onclick=()=>show('p-rate');
-$('#reply').onclick=()=>{const r=$('#reply');if(r.classList.contains('done'))return;$('#replyt').textContent='Replying…';setTimeout(()=>{r.classList.add('done');$('#replyt').textContent='Sent';$('#sentsub').textContent=`${cur.lane} · ${$('#q-sell').textContent}`;$('#sent').classList.add('show')},RM?0:450)};
+$('#reply').onclick=()=>{const r=$('#reply');if(r.classList.contains('done'))return;$('#replyt').textContent='Replying…';setTimeout(()=>{r.classList.add('done');r.setAttribute('aria-disabled','true');$('#replyt').textContent='Sent';$('#sentsub').textContent=`${cur.lane} · ${$('#q-sell').textContent}`;$('#sent').classList.add('show')},RM?0:450)};
 loadEmail();
 // scan automatically when the demo first comes into view
 new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();setTimeout(doScan,RM?0:900)}},{threshold:.5}).observe($('#demo'));

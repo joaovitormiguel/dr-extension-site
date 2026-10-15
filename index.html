@@ -93,6 +93,9 @@ h1 b{font-weight:700;display:block}
 .ph .icons{margin-left:auto;display:flex;gap:10px;opacity:.45}
 .ph svg{width:15px;height:15px}
 .pbody{padding:14px;position:absolute;inset:48px 0 0 0;transition:opacity 300ms var(--ease-out),transform 420ms var(--ease-out),filter 300ms var(--ease-out)}
+#p-rate,#p-quote{display:flex;flex-direction:column}
+#p-rate .card,#p-quote .card{flex:none;margin-bottom:14px}
+.back{align-self:flex-start}
 .pbody.hide{opacity:0;transform:translateY(8px);filter:blur(3px);pointer-events:none;transition-duration:160ms}
 /* staggered result */
 .st{opacity:0;transform:translateY(6px);transition:opacity 360ms var(--ease-out),transform 460ms var(--ease-out);transition-delay:calc(var(--d,0)*55ms)}
@@ -143,8 +146,12 @@ h1 b{font-weight:700;display:block}
 .rbar .fill{position:absolute;inset:0;border-radius:3px;background:rgba(154,207,71,.55);transform-origin:left;transform:scaleX(0);transition:transform 700ms var(--ease-out)}
 .rbar .dot{position:absolute;top:50%;width:2px;height:14px;margin:-7px 0 0 -1px;border-radius:1px;background:var(--slate);pointer-events:none;left:0;opacity:0;transition:left 700ms var(--ease-out),opacity 200ms ease}
 .meta{font:400 10.5px Inter;color:rgba(15,23,42,.48);margin-top:10px}
-.gq{margin-top:12px;width:100%;height:40px;border:0;border-radius:9px;background:var(--lime-ui);font:600 13.5px Inter;color:var(--slate);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform 160ms var(--ease-out),filter 200ms ease}
-.gq:active{transform:scale(.97)} .gq .n{width:17px;height:17px;border-radius:50%;background:var(--slate);color:#fff;font-size:10px;display:grid;place-items:center}
+.gq,.reply{margin-top:auto;flex:none;width:100%;height:46px;border:0;border-radius:11px;background:var(--lime-ui);font:600 14px Inter;color:var(--slate);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(63,93,20,.18),0 1px 2px rgba(15,23,42,.14),0 8px 18px -8px rgba(76,122,0,.55);transition:transform 160ms var(--ease-out),background-color 200ms ease,box-shadow 200ms ease}
+.gq:active,.reply:active{transform:scale(.97);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 1px 2px rgba(15,23,42,.14)}
+@media (hover:hover) and (pointer:fine){.gq:hover,.reply:not(.done):hover{background:#8FC43E}}
+.gq:focus-visible,.reply:focus-visible{outline:2px solid var(--slate);outline-offset:2px}
+.gq.nudge{animation:nudge 1.8s var(--ease-out) 3}
+@keyframes nudge{0%{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(63,93,20,.18),0 0 0 0 rgba(154,207,71,.6)}70%{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(63,93,20,.18),0 0 0 10px rgba(154,207,71,0)}100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(63,93,20,.18),0 0 0 0 rgba(154,207,71,0)}} .gq .n{width:17px;height:17px;border-radius:50%;background:var(--slate);color:#fff;font-size:10px;display:grid;place-items:center}
 .skel{height:208px;border-radius:12px;background:linear-gradient(90deg,#fff 0%,#eef0f2 50%,#fff 100%);background-size:200% 100%;animation:sh 1s linear infinite}
 @keyframes sh{to{background-position:-200% 0}}
 .scanbtn{display:flex;gap:12px;align-items:center;width:100%;border:0;background:#fff;border-radius:12px;padding:12px;box-shadow:inset 0 0 0 1.5px var(--lime-ui),0 0 0 5px rgba(154,207,71,.18);cursor:pointer;font-family:Inter;text-align:left;transition:transform 160ms var(--ease-out)}
@@ -159,8 +166,7 @@ h1 b{font-weight:700;display:block}
 .sell{margin-top:12px;background:var(--lime-soft);border-radius:10px;padding:11px;display:flex;justify-content:space-between;align-items:center}
 .sell .e{font:600 10px Inter;letter-spacing:.08em;color:var(--lime-ink)}.sell .s{font:500 11px Inter;color:rgba(15,23,42,.55);margin-top:2px}
 .sell .v{font:700 22px Inter;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.reply{margin-top:12px;width:100%;height:40px;border:0;border-radius:9px;background:var(--lime-ui);font:600 13.5px Inter;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform 160ms var(--ease-out),background-color 250ms ease}
-.reply:active{transform:scale(.97)} .reply.done{background:var(--lime)}
+.reply.done{background:var(--lime)}
 .back{font:500 11.5px Inter;color:rgba(15,23,42,.55);cursor:pointer;background:none;border:0;margin-bottom:10px}
 /* lane switcher */
 .lanes{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;align-items:center}
@@ -342,6 +348,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   .scene{transform:none;filter:none}
   .stack .p,.digit span,.ticker div{transition-duration:0ms}
   html{scroll-behavior:auto}
+  .gq.nudge{animation:none}
 }
 </style>
 </head>
@@ -404,7 +411,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
               </div>
               <div class="meta" id="r-meta">Distance: 165 mi · Transit: 2 hours 26 mins</div>
             </div>
-            <button class="gq st" style="--d:4" id="gq">Generate Quote <span class="n">1</span></button>
+            <div class="st" style="--d:4;margin-top:auto"><button class="gq" id="gq">Generate Quote <span class="n">1</span></button></div>
           </div>
           <!-- quote state -->
           <div class="pbody hide qb" id="p-quote">
@@ -637,18 +644,18 @@ function doScan(){
 function fillRate(){
  const l=cur;$('#r-who').textContent=l.who;$('#r-lane').textContent=l.lane;$('#r-meta').textContent=l.meta;
  $('#r-range').textContent=`${fmt(l.lo)}–${fmt(l.hi)}`;const c=$('#r-conf');c.textContent=l.conf||'';c.style.opacity=l.conf?1:0;
- const fill=$('#r-fill'),dot=$('#r-dot');fill.style.transform='scaleX(0)';dot.style.opacity=0;dot.style.left='0%';
+ const fill=$('#r-fill'),dot=$('#r-dot');$('#gq').classList.remove('nudge');fill.style.transform='scaleX(0)';dot.style.opacity=0;dot.style.left='0%';
  // scramble that slows down and closes in on the market rate, then locks
  const el=$('#r-val');const D=RM?0:900;let last=0;const t0=performance.now();
  (function tick(t){const p=Math.min(1,(t-t0)/Math.max(D,1));const gap=40+260*p*p;
   if(p<1){if(t-last>gap*0.35){last=t;const spread=(l.hi-l.lo)*Math.pow(1-p,2);el.textContent=fmt(l.v+(Math.random()-.5)*spread*1.6)}requestAnimationFrame(tick)}
-  else{el.textContent=fmt(l.v);fill.style.transform='scaleX(1)';setTimeout(()=>{dot.style.opacity=1;dot.style.left=((l.v-l.lo)/(l.hi-l.lo)*100)+'%'},120)}})(t0+260);
+  else{el.textContent=fmt(l.v);fill.style.transform='scaleX(1)';setTimeout(()=>{dot.style.opacity=1;dot.style.left=((l.v-l.lo)/(l.hi-l.lo)*100)+'%'},120);setTimeout(()=>$('#gq').classList.add('nudge'),RM?0:900)}})(t0+260);
  $('#q-lane').textContent=l.lane;$('#margin').value=8;updQuote();
 }
 function updQuote(){const m=+$('#margin').value,b=cur.v,s=b*(1+m/100);$('#q-buy').textContent=fmt2(b);$('#q-m').textContent=m+' %';$('#q-sub').textContent=`Buy ${fmt2(b)} + ${m}% margin`;$('#q-sell').textContent=fmt2(s);$('#replyt').textContent='Reply';$('#reply').classList.remove('done')}
 $('#margin').addEventListener('input',updQuote);
 $('#scanbtn').onclick=pressScan;
-$('#gq').onclick=()=>{hideHint();show('p-quote')};
+$('#gq').onclick=()=>{hideHint();$('#gq').classList.remove('nudge');show('p-quote')};
 $('#back').onclick=()=>show('p-rate');
 $('#reply').onclick=()=>{const r=$('#reply');if(r.classList.contains('done'))return;$('#replyt').textContent='Replying…';setTimeout(()=>{r.classList.add('done');$('#replyt').textContent='Sent';$('#sentsub').textContent=`${cur.lane} · ${$('#q-sell').textContent}`;$('#sent').classList.add('show')},RM?0:450)};
 loadEmail();
